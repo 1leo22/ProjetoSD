@@ -2,64 +2,114 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PoupancaSimuladorImp implements PoupancaSimuladorInter{
-	private static int cont;
-	private static Map<Integer, ClienteInter> clienteMap;
-	private static int contaPassos=0;
+import javax.swing.JOptionPane;
 
+public class PoupancaSimuladorImp implements PoupancaSimuladorInter{
+	private static int contaPassos=1;
+	private static int contaCliente=0;
 
 	private double totalPoupado;
 	private double jurosRecebido;
 	private double montanteFinal;
 
+	private double valorInicial;
+	private double aporteMensal;
+	private double taxaJuros;
+	private int prazo;
+
+
 	public PoupancaSimuladorImp() {
-		clienteMap = new HashMap <Integer, ClienteInter>();
-		cont = 0;
+
 	}
 
+	
+	/*---------------------------------------------------------------------------------------------*/
+	/*
+	 * Métodos get e set do cliente
+	 * 
+	 * */
 
+	public void setValorInicial(String valorInicial) throws RemoteException {
+		//System.out.print("Entre com o valor inicial: ");
+		//this.valorInicial = sc.nextDouble();
+		this.valorInicial = Double.parseDouble(valorInicial);
 
+	}
 
+	@Override
+	public void setAporteMensal(String aporteMensal) throws RemoteException {
+		//System.out.print("Entre com o aporte mensal: ");
+		//this.aporteMensal = sc.nextDouble();
+		this.aporteMensal = Double.parseDouble(aporteMensal);
+
+	}
+
+	@Override
+	public void setTaxaJuros(String taxaDeJuros) throws RemoteException {
+		//System.out.print("Entre com a taxa de juros: ");
+		//this.taxaJuros = sc.nextDouble()/100;
+		this.taxaJuros = Double.parseDouble(taxaDeJuros);
+
+	}
+
+	@Override
+	public void setPrazo(String prazo) throws RemoteException {
+		//System.out.print("Entre com o prazo: ");
+		//this.prazo = sc.nextInt();
+		this.prazo = Integer.parseInt(prazo);
+
+	}
+
+	@Override
+	public double getValorInicial() throws RemoteException {
+		// TODO Auto-generated method stub
+		return this.valorInicial;
+	}
+
+	@Override
+	public double getAporteMensal() throws RemoteException {
+		// TODO Auto-generated method stub
+		return this.aporteMensal;
+	}
+
+	@Override
+	public double getTaxaJuros() throws RemoteException {
+		// TODO Auto-generated method stub
+		return this.taxaJuros;
+	}
+
+	@Override
+	public int getPrazo() throws RemoteException {
+		// TODO Auto-generated method stub
+		return this.prazo;
+	}
+
+	
+	
+	
+/*---------------------------------------------------------------------------------------------*/
 
 	@Override
 	public double totalPoupado() throws RemoteException{
-		double valorInicial = clienteMap.get(0).getValorInicial();
-		double aporteMensal = clienteMap.get(1).getAporteMensal();
-		System.out.println("-------Funcao Total Poupado------");
-		System.out.println("Valor Inicial: "+ valorInicial);
-		System.out.println("Aporte Mensal: "+ aporteMensal);
-		System.out.println("---------------------------------");
-		int prazo = clienteMap.get(1).getPrazo();
+
 		//this.totalPoupado = this.valorInicial + this.aporteMensal * this.prazo;
-		return this.totalPoupado = valorInicial + aporteMensal * prazo;
+		return this.totalPoupado = this.valorInicial + this.aporteMensal * this.prazo;
 
 	}
 
-
-
+/*---------------------------------------------------------------------------------------------*/
 
 	@Override
 	public double jurosRecebido()  throws RemoteException{		
 
 		double aux=0.0;
-		double valorInicial = clienteMap.get(0).getValorInicial();
-		double aporteMensal = clienteMap.get(1).getAporteMensal();
-		double taxaJuros = clienteMap.get(0).getTaxaJuros();
-		int prazo = clienteMap.get(1).getPrazo();
-
-		System.out.println("------Funcao Juros Recebido-----");
-		System.out.println("Valor Inicial: "+ valorInicial);
-		System.out.println("Aporte Mensal: "+ aporteMensal);
-		System.out.println("Taxa Juros: "+ taxaJuros);
-		System.out.println("Prazo: "+ prazo);
-		System.out.println("--------------------------------");
-
-		for(int i = 1; i <= prazo; i++) {
+		
+		for(int i = 1; i <= this.prazo; i++) {
 			if(i == 1) {
-				this.jurosRecebido = valorInicial * taxaJuros;
-				aux = aporteMensal + this.jurosRecebido + valorInicial;
+				this.jurosRecebido = this.valorInicial * this.taxaJuros;
+				aux = this.aporteMensal + this.jurosRecebido + this.valorInicial;
 			}else {
-				aux += aux * taxaJuros + aporteMensal;
+				aux += aux * this.taxaJuros + this.aporteMensal;
 
 			}
 		}
@@ -67,7 +117,7 @@ public class PoupancaSimuladorImp implements PoupancaSimuladorInter{
 	}
 
 
-
+/*---------------------------------------------------------------------------------------------*/
 
 	@Override
 	public double montanteFinal()  throws RemoteException{
@@ -76,104 +126,46 @@ public class PoupancaSimuladorImp implements PoupancaSimuladorInter{
 
 
 
+
+/*---------------------------------------------------------------------------------------------*/
+/*
+ * Implementação dos metodos de para auxilio no controle de acesso entre os clientes
+ * (non-Javadoc)
+ * @see PoupancaSimuladorInter#setPassos(int)
+ */
+	
 	@Override
-	public void adicionarCliente(ClienteInter cliente) throws RemoteException {	
-		if(clienteMap.size() == 0){
-			clienteMap.put(cont, cliente);
-			enviaMensagem("Aguarde o segundo cliente....");
-			cont++;
-		}else
-			if(clienteMap.size() == 1){
-				clienteMap.put(cont, cliente);
-				enviaMensagem("Segundo cliente logado com sucesso!!!");
-				cont++;
-				System.out.println(cont);
-			}
-		if(clienteMap.size() == 2){
-			iniciarProcesso();
-		}	
+	public void setPassos(int passos) throws RemoteException{
+		this.contaPassos += passos;
 	}
 
-
-
-
+/*---------------------------------------------------------------------------------------------*/	
+	
 	@Override
-	public void iniciarProcesso() throws RemoteException {
-		/*clienteMap.get(0).setValorInicial();
-		clienteMap.get(1).setAporteMensal();
-		clienteMap.get(0).setTaxaJuros();
-		clienteMap.get(1).setPrazo();*/
-		
-		while(contaPassos < 4) {
-			if(contaPassos == 0) {
-				clienteMap.get(1).recebeMensagem("Cliente 2 - Aguardando outro Cliente!!");
-				clienteMap.get(0).setValorInicial();
-				contaPassos++;
-				
-			}
-			if(contaPassos == 1) {
-				clienteMap.get(0).recebeMensagem("Cliente 1 - Aguardando outro Cliente!!");
-				clienteMap.get(1).setAporteMensal();
-				contaPassos++;
-
-			}
-			if(contaPassos == 2) {
-				clienteMap.get(1).recebeMensagem("Cliente 2 - Aguardando outro Cliente!!");
-				clienteMap.get(0).setTaxaJuros();
-				contaPassos++;
-
-			}
-			if(contaPassos == 3) {
-				clienteMap.get(0).recebeMensagem("Cliente 1 - Aguardando outro Cliente!!");
-				clienteMap.get(1).setPrazo();
-				contaPassos++;
-
-			}		
-		}
-		enviaMensagem("calculoFinal");
+	public int contaPassos() throws RemoteException{
+		return contaPassos;
 	}
 
-
-
-
-
-
-
-
+	
+/*---------------------------------------------------------------------------------------------*/	
+	
 	@Override
-	public void enviaMensagem(String mensagem) throws RemoteException {
-		if(cont == 0){
-				clienteMap.get(cont).recebeMensagem(mensagem);
-		}else 
-			if (cont == 1){
-				clienteMap.get(cont).recebeMensagem(mensagem);
-			}else{
-					clienteMap.get(0).recebeMensagem(
-							"------------------Cliente 1-----------------\n"+
-							"Valor Inicial: "+ clienteMap.get(0).getValorInicial()+"\n"+
-							"Taxa de Juros: "+ clienteMap.get(0).getTaxaJuros() +"\n"+
-							"TOTAL POUPADO: "+ totalPoupado()+"\n"+
-							"JUROS RECEBIDO: "+ jurosRecebido()+"\n"+
-							"MONTANTE FINAL: "+ montanteFinal()+"\n"
-					);	
-
-					clienteMap.get(1).recebeMensagem(
-							"------------------Cliente 2-----------------\n"+
-							"Aporte Mensal: "+ clienteMap.get(1).getAporteMensal()+"\n"+
-							"Prazo: "+ clienteMap.get(1).getPrazo() +"\n"+
-							"TOTAL POUPADO: "+ totalPoupado()+"\n"+
-							"JUROS RECEBIDO: "+ jurosRecebido()+"\n"+
-							"MONTANTE FINAL: "+ montanteFinal()+"\n"
-					);	
-
-
-				}
-
-
+	public void setCliente(int valor) throws RemoteException{
+		this.contaCliente += valor;
 	}
 
+/*---------------------------------------------------------------------------------------------*/	
 
-
+	@Override
+	public int getCliente() throws RemoteException{
+		return this.contaCliente;
+	}
+  
+	@Override
+	public void zeraContador() throws RemoteException{
+		this.contaCliente = 0;
+		this.contaPassos = 1;
+	}
 
 
 }
