@@ -1,9 +1,13 @@
+package com.suam.Servidor;
+
 import java.net.InetAddress;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import javax.swing.JOptionPane;
+
+import com.suam.Interface.PoupancaSimuladorInter;
 
 public class Servidor {
 
@@ -22,10 +26,10 @@ public class Servidor {
 			registry.bind(nomeServico, servicoDistribuido);
 			String ip = InetAddress.getLocalHost().getHostAddress();
 			String mensagem ="-------------Servidor Disponível-------------\n" +
-							"Nome do Servido: "+nomeServico+"         \n"+
-							"IP: "+ip+"                             \n"+
-							"Pressione qualquer botão para encerrar \n"+
-							"---------------------------------------------\n";			
+					"Nome do Servido: "+nomeServico+"         \n"+
+					"IP: "+ip+"                             \n"+
+					"Pressione qualquer botão para encerrar \n"+
+					"---------------------------------------------\n";			
 			// JOptionPane.showMessageDialog(null, mensagem);
 
 			int m = JOptionPane.showConfirmDialog(null, mensagem);
@@ -39,6 +43,11 @@ public class Servidor {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 }
+
+
+
+

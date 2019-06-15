@@ -1,14 +1,13 @@
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
+package com.suam.Cliente;
+
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import javax.swing.JOptionPane;
 
-public class Cliente extends Thread{
-	private static int contaPassos = 1;
-	private static int contaCliente=0;
+import com.suam.Interface.PoupancaSimuladorInter;
 
+public class Cliente {
 
 
 	public static void main(String[] args) {
@@ -16,16 +15,20 @@ public class Cliente extends Thread{
 
 
 		try {
-
+			
 			String nomeServico = "PoupancaServico";
 			int porta = 1099;
+			String ip = retornaIP();
 
-
-			Registry registry = LocateRegistry.getRegistry("192.168.11.5", porta);
-
+		
+			Registry registry = LocateRegistry.getRegistry(ip, porta);
+			PoupancaSimuladorInter	stub = (PoupancaSimuladorInter) registry.lookup(nomeServico);
+		
 			//cria um stub que recebe o servico contendo os metodos remotos do servidor
-			PoupancaSimuladorInter stub = (PoupancaSimuladorInter) registry.lookup(nomeServico);
-
+		
+			JOptionPane.showMessageDialog(null, "=====================================\n"
+					+ "Conectado no servidor -> " +ip+"\n"
+					+ "=====================================");
 
 
 			//stub.adicionarCliente(cliente);
@@ -68,9 +71,9 @@ public class Cliente extends Thread{
 						while(stub.contaPassos() == 5) {}
 						stub.setPrazo(Mensagem.entraPrazo());
 						stub.setPassos(1);//7
-						
+
 						Mensagem.mensagemFinalCliente2(stub.getAporteMensal(), stub.getPrazo(), stub.totalPoupado(), stub.jurosRecebido(), stub.montanteFinal());
-						
+
 						stub.zeraContador();
 					}
 			}catch(Exception e) {
@@ -81,9 +84,27 @@ public class Cliente extends Thread{
 			//}
 		}catch(Exception e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "ERRO 404 - Servidor não encontrado: \n" + e);
 		}
 
 	}
+	
+	
+	
+
+	public static String retornaIP() {
+
+		String[] servidor = {"Servidor 1", "Servidor 2"};
+		String op = (String) JOptionPane.showInputDialog(null, "Escolha o servidor", "Servidores", JOptionPane.QUESTION_MESSAGE,null, servidor, servidor[0]);
+
+			if(op == servidor[0]) {
+				return "192.168.11.7";
+			}else {
+				return "10.0.200.28";
+			}
+		
+	}
+
 
 
 

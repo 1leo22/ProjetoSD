@@ -1,8 +1,10 @@
-import java.rmi.RemoteException;
-import java.util.HashMap;
-import java.util.Map;
+package com.suam.Servidor;
 
-import javax.swing.JOptionPane;
+import java.rmi.RemoteException;
+
+
+
+import com.suam.Interface.PoupancaSimuladorInter;
 
 public class PoupancaSimuladorImp implements PoupancaSimuladorInter{
 	private static int contaPassos=1;
@@ -10,7 +12,7 @@ public class PoupancaSimuladorImp implements PoupancaSimuladorInter{
 
 	private double totalPoupado;
 	private double jurosRecebido;
-	private double montanteFinal;
+	//private double montanteFinal;
 
 	private double valorInicial;
 	private double aporteMensal;
@@ -121,7 +123,7 @@ public class PoupancaSimuladorImp implements PoupancaSimuladorInter{
 
 	@Override
 	public double montanteFinal()  throws RemoteException{
-		return this.montanteFinal = this.totalPoupado + this.jurosRecebido;
+		return  this.totalPoupado + this.jurosRecebido;
 	}
 
 
@@ -136,7 +138,7 @@ public class PoupancaSimuladorImp implements PoupancaSimuladorInter{
 	
 	@Override
 	public void setPassos(int passos) throws RemoteException{
-		this.contaPassos += passos;
+		PoupancaSimuladorImp.contaPassos += passos;
 	}
 
 /*---------------------------------------------------------------------------------------------*/	
@@ -151,20 +153,20 @@ public class PoupancaSimuladorImp implements PoupancaSimuladorInter{
 	
 	@Override
 	public void setCliente(int valor) throws RemoteException{
-		this.contaCliente += valor;
+		PoupancaSimuladorImp.contaCliente += valor;
 	}
 
 /*---------------------------------------------------------------------------------------------*/	
 
 	@Override
 	public int getCliente() throws RemoteException{
-		return this.contaCliente;
+		return PoupancaSimuladorImp.contaCliente;
 	}
   
 	@Override
 	public void zeraContador() throws RemoteException{
-		this.contaCliente = 0;
-		this.contaPassos = 1;
+		PoupancaSimuladorImp.contaCliente = 0;
+		PoupancaSimuladorImp.contaPassos = 1;
 	}
 
 

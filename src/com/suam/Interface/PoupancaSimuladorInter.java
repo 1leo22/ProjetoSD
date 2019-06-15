@@ -1,3 +1,5 @@
+package com.suam.Interface;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
