@@ -1,5 +1,7 @@
 package com.suam.Teste;
 
+import javax.swing.JOptionPane;
+
 import com.suam.Cliente.Mensagem;
 
 public class Teste {
@@ -36,13 +38,13 @@ numero = "2".matches("\\d");
         System.out.println("Possui espaço? "+espaco);
 
 */
-		Mensagem.entraValorInicial();
+		/*Mensagem.entraValorInicial();
 		Mensagem.entraAporteMensal();
 		Mensagem.entraTaxaDeJuros();
-		Mensagem.entraPrazo();		
-		
-		
-		
+		Mensagem.entraPrazo();*/		
+		/*
+		String mensagem = JOptionPane.showInputDialog(null, "Entre com o aporte mensal." + "\n" + "Ex: R$ 500,00").replace(",",".");	
+		System.out.println(mensagem);*/
 	}
 
 }

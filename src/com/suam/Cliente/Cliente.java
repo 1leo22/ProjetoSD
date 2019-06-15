@@ -22,6 +22,8 @@ public class Cliente {
 
 		
 			Registry registry = LocateRegistry.getRegistry(ip, porta);
+			
+			
 			PoupancaSimuladorInter	stub = (PoupancaSimuladorInter) registry.lookup(nomeServico);
 		
 			//cria um stub que recebe o servico contendo os metodos remotos do servidor
@@ -39,7 +41,7 @@ public class Cliente {
 					stub.setPassos(1);//2
 
 					while(stub.contaPassos() == 2) {
-						Mensagem.mensagemAguardaSegundoCliente();
+						//Mensagem.mensagemAguardaSegundoCliente();
 					}
 
 					stub.setValorInicial(Mensagem.entraValorInicial());

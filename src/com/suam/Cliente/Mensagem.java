@@ -36,9 +36,9 @@ public class Mensagem {
 	}
 
 	public static String entraValorInicial() {
-		mensagem = JOptionPane.showInputDialog(null, "Entre com o valor incial." + "\n" + "Ex: 1000");
+		mensagem = JOptionPane.showInputDialog(null, "Entre com o valor incial." + "\n" + "Ex: R$ 1000,00").replace(",",".");
 
-		if(!validaEntrada(mensagem.replaceAll(",", "."))) {
+		if(!validaEntrada(mensagem)) {
 			mensagemErro();
 			entraValorInicial();
 		}
@@ -46,9 +46,9 @@ public class Mensagem {
 	}
 
 	public static String entraAporteMensal() {
-		mensagem = JOptionPane.showInputDialog(null, "Entre com o aporte mensal." + "\n" + "Ex: 500");
+		mensagem = JOptionPane.showInputDialog(null, "Entre com o aporte mensal." + "\n" + "Ex: R$ 500,00").replace(",",".");
 		
-		if(!validaEntrada(mensagem.replaceAll(",", "."))) {
+		if(!validaEntrada(mensagem)) {
 			mensagemErro();
 			entraAporteMensal();
 		}
@@ -57,9 +57,9 @@ public class Mensagem {
 	}
 
 	public static String entraTaxaDeJuros() {
-		mensagem = JOptionPane.showInputDialog(null, "Entre com a taxa de juros." + "\n" + "Ex: 0.6%");
+		mensagem = JOptionPane.showInputDialog(null, "Entre com a taxa de juros." + "\n" + "Ex: 0.6%").replace(",",".");
 		
-		if(!validaEntrada(mensagem.replaceAll(",", "."))) {
+		if(!validaEntrada(mensagem)) {
 			mensagemErro();
 			entraTaxaDeJuros();
 		}
@@ -69,7 +69,7 @@ public class Mensagem {
 
 	public static String entraPrazo() {
 		
-		mensagem = JOptionPane.showInputDialog(null, "Entre com o prazo e meses." + "\n" + "Ex: 12");
+		mensagem = JOptionPane.showInputDialog(null, "Entre com o prazo e meses." + "\n" + "Ex: 12 meses");
 		
 		try {
 			int valor = Integer.parseInt(mensagem);
@@ -97,26 +97,27 @@ public class Mensagem {
 	 */	
 	
 	public static void mensagemFinalCliente1(double valorInicial, double taxaDeJuros, double totalPoupado, double jurosRecebidos, double montanteFinal) {
-		JOptionPane.showMessageDialog(null, "------------------Cliente 1------------------\n"
+		JOptionPane.showMessageDialog(null, "------------------Cliente 1--------------------\n"
 				+ "-------------Valores Inseridos-------------\n"
 				+ "Valor Inicial: " + String.format("%.2f",valorInicial) + "\n" 
-				+ "Taxa de Juros: " + String.format("%.2f",taxaDeJuros) + "\n" 
+				+ "Taxa de Juros: " + String.format("%.1f",taxaDeJuros) + "\n"
+				+"----------------Resultado final-------------\n"
 				+ "Total poupado: " + String.format("%.2f",totalPoupado) + "\n"
 				+ "Juros recebidos: "+ String.format("%.2f",jurosRecebidos) + "\n"
 				+ "Montante final: " + String.format("%.2f",montanteFinal) + "\n"
-				+ "--------------------------------------------");
+				+ "----------------------------------------------");
 
 	}
 	public static void mensagemFinalCliente2(double aporteMensal, Integer prazo, double totalPoupado, double jurosRecebidos, double montanteFinal) {
-		JOptionPane.showMessageDialog(null, "------------------Cliente 2------------------\n"
+		JOptionPane.showMessageDialog(null, "------------------Cliente 2--------------------\n"
 				+ "-------------Valores Inseridos-------------\n"
 				+ "Aporte Mensal: " + String.format("%.2f",aporteMensal) + "\n" 
 				+ "Pazo: " + prazo.toString() + "\n" 
-				+"--------------------------------------------\n"
+				+"----------------Resultado final-------------\n"
 				+ "Total poupado: " + String.format("%.2f",totalPoupado) + "\n"
 				+ "Juros recebidos: "+ String.format("%.2f",jurosRecebidos) + "\n"
 				+ "Montante final: " + String.format("%.2f",montanteFinal) + "\n"
-				+ "-----------------------------------------------");
+				+ "-------------------------------------------------");
 
 
 	}
